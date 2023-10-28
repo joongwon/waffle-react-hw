@@ -1,0 +1,13 @@
+.delete-modal {
+  width: 30rem;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.delete-modal button.delete {
+  background: #ffbbbb;
+}

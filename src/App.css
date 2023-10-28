@@ -1,0 +1,48 @@
+.app {
+  font-family: sans-serif;
+}
+
+.app > header > a {
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  gap: 1rem;
+}
+
+.app > header h1 {
+  margin: 0;
+}
+
+.app > header {
+  background-color: #ffeed0;
+  padding: 0.5rem;
+  box-shadow: 0 0.2rem 0.2rem gray;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 1;
+}
+
+.app > ul {
+  display: flex;
+  flex-direction: column;
+  width: 35rem;
+  margin: 5rem auto;
+  padding: 0;
+  gap: 1rem;
+}
+
+.app > button.add {
+  position: fixed;
+  right: 3rem;
+  bottom: 3rem;
+  background-color: #00ee00;
+  color: white;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  border: none;
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  cursor: pointer;
+}

@@ -1,0 +1,89 @@
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  z-index: 2;
+}
+
+.modal h1,
+.modal p {
+  margin: 0;
+}
+
+.modal .buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.modal button {
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.2rem 1rem;
+}
+
+.modal > :not(.modal--background) {
+  animation: modal-content 0.5s;
+}
+
+.modal.closing > :not(.modal--background) {
+  animation: modal-content-closing 0.5s;
+  opacity: 0;
+  transform: translateY(-5rem);
+}
+
+@keyframes modal-content {
+  from {
+    transform: translateY(-5rem);
+    opacity: 0;
+  }
+  to {
+  }
+}
+
+@keyframes modal-content-closing {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+  to {
+  }
+}
+
+@keyframes modal-bg {
+  from {
+    opacity: 0;
+  }
+  to {
+  }
+}
+
+@keyframes modal-bg-closing {
+  from {
+    opacity: 1;
+  }
+  to {
+  }
+}
+
+.modal--background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  animation: modal-bg 0.5s;
+}
+
+.modal.closing > .modal--background {
+  animation: modal-bg-closing 0.5s;
+  opacity: 0;
+}

@@ -1,0 +1,98 @@
+.review-item {
+  display: grid;
+  grid-template:
+    "img snack   hr      rating  1       btn1    btn2" auto
+    "img content content content content content content" auto
+    "2   content content content content content content" 1fr /
+    auto auto auto auto 1fr auto auto;
+  border: 1px solid gray;
+  gap: 0.5rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  padding: 0.5rem;
+}
+
+.review-item > img {
+  grid-area: img;
+  width: 10rem;
+  height: 10rem;
+}
+
+.review-item > h2 {
+  grid-area: snack;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.review-item > .sep {
+  grid-area: hr;
+  align-self: center;
+  color: gray;
+}
+
+.review-item > .rating {
+  grid-area: rating;
+  color: #ffbb00;
+  font-weight: bold;
+}
+
+.review-item > p,
+.review-item > textarea {
+  grid-area: content;
+  margin: 0;
+}
+
+.review-item .star {
+  background-image: url(/star.svg);
+  background-size: contain;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: inline-block;
+  transform: translateY(3px);
+}
+
+.review-item > button {
+  display: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: transparent;
+  border: none;
+}
+
+.review-item.editable:hover > button.edit,
+.review-item.editable:hover > button.delete,
+.review-item.editing > button.save,
+.review-item.editing > button.cancel {
+  display: initial;
+}
+
+.review-item > button.edit {
+  background-image: url(/edit.svg);
+  background-size: cover;
+  grid-area: btn1;
+}
+
+.review-item > button.delete {
+  background-image: url(/delete.svg);
+  background-size: cover;
+  grid-area: btn2;
+}
+
+.review-item > button.save {
+  background-image: url(/save.svg);
+  background-size: cover;
+  grid-area: btn1;
+}
+
+.review-item > button.cancel {
+  background-image: url(/cancel.svg);
+  background-size: cover;
+  grid-area: btn2;
+}
+
+.review-item > img {
+  width: 10rem;
+  height: 10rem;
+  align-self: center;
+  border: 1px solid pink;
+  border-radius: 1rem;
+}

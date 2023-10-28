@@ -1,0 +1,30 @@
+.add-modal {
+  width: 30rem;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.add-modal button.submit {
+  background: #bbffbb;
+}
+
+.add-modal button.cancel {
+  background: #ffbbbb;
+}
+
+.add-modal > p {
+  color: red;
+  margin: 0;
+}
+
+.add-modal > img {
+  width: 10rem;
+  height: 10rem;
+  align-self: center;
+  border: 1px solid pink;
+  border-radius: 1rem;
+}
