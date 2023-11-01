@@ -60,7 +60,7 @@ function App() {
             startEditing={setEditingId}
             update={updateReview}
             endEditing={() => setEditingId(null)}
-            deleteReview={deleteReview}
+            openDeleteModal={deleteReview}
           />
         ))}
       </ul>

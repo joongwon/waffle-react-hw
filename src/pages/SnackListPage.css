@@ -1,0 +1,50 @@
+.snack-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5rem;
+  padding: 0;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.snack-list > li {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  gap: 0.5rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  padding: 0.5rem;
+  width: 10rem;
+  align-items: center;
+}
+
+.snack-list > li h2 {
+  margin: 0;
+}
+
+.snack-list > li a {
+  text-decoration: none;
+  color: black;
+}
+
+.snack-list > li > img {
+  width: 10rem;
+  height: 10rem;
+  border: 1px solid pink;
+  border-radius: 1rem;
+}
+
+.snack-list > li .star {
+  background-image: url(/star.svg);
+  background-size: contain;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: inline-block;
+  transform: translateY(3px);
+}
+
+.snack-list > li > .rating {
+  grid-area: rating;
+  color: #ffbb00;
+  font-weight: bold;
+}

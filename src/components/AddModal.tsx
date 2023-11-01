@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "./Modal";
-import { Review } from "./reviewData";
+import { Review, useSnackContext } from "../contexts/SnackContext";
+import SnackNameInput from "./SnackNameInput";
 import "./AddModal.css";
 
 type Props = {
   close: () => void;
-  addReview: (review: Review) => void;
   isClosing: boolean;
 };
 
@@ -13,28 +13,22 @@ function beginOrEndWithBlank(s: string) {
   return s.match(/^\s|\s$/) !== null;
 }
 
-export default function AddModal({ close, addReview, isClosing }: Props) {
-  const [imgInput, setImgInput] = useState("");
-  const [imgDisplay, setImgDisplay] = useState<string | null>(null);
+export default function AddModal({ close, isClosing }: Props) {
+  const { addReview, getSnackByName } = useSnackContext();
   const [snack, setSnack] = useState("");
   const [rating, setRating] = useState("");
   const [content, setContent] = useState("");
 
   const [error, setError] = useState<{
-    img?: string;
     snack?: string;
     rating?: string;
     content?: string;
   }>({});
-  const [tid, setTid] = useState<number | null>(null);
 
   const handleSubmit = () => {
-    const imgError =
-      imgDisplay === null ? "올바른 이미지 주소를 입력하세요" : undefined;
+    const snackInst = getSnackByName(snack);
     const snackError =
-      snack.length < 1 || snack.length > 20 || beginOrEndWithBlank(snack)
-        ? "첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요"
-        : undefined;
+      snackInst === null ? "해당 과자를 찾을 수 없습니다" : undefined;
     const ratingError =
       rating.match(/^[1-5]$/) === null
         ? "평점은 1 ~ 5 사이의 숫자로 써주세요"
@@ -46,9 +40,8 @@ export default function AddModal({ close, addReview, isClosing }: Props) {
         ? "첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요"
         : undefined;
 
-    if (imgError || snackError || ratingError || contentError) {
+    if (snackError || ratingError || contentError) {
       setError({
-        img: imgError,
         snack: snackError,
         rating: ratingError,
         content: contentError,
@@ -56,8 +49,7 @@ export default function AddModal({ close, addReview, isClosing }: Props) {
     } else {
       addReview({
         id: Date.now(),
-        snack_name: snack,
-        image: imgInput,
+        snackId: snackInst!.id,
         rating: Number(rating),
         content: content,
       });
@@ -69,33 +61,12 @@ export default function AddModal({ close, addReview, isClosing }: Props) {
     <Modal onBackgroundClick={close} isClosing={isClosing}>
       <div className="add-modal" data-testid="write-review-modal">
         <h1>리뷰 추가</h1>
-        <img
-          src={imgDisplay ?? undefined}
-          onError={() => setImgDisplay(null)}
-        />
-        <label htmlFor="add-modal--img">이미지</label>
-        <input
-          disabled={isClosing}
-          id="add-modal--img"
-          value={imgInput}
-          onChange={(e) => {
-            if (tid !== null) clearTimeout(tid);
-            setImgInput(e.target.value);
-            setTid(
-              setTimeout(() => {
-                setImgDisplay(e.target.value);
-              }, 1000),
-            );
-          }}
-          data-testid="image-input"
-        />
-        <p>{error.img}</p>
         <label htmlFor="add-modal--snack">과자 이름</label>
-        <input
+        <SnackNameInput
           disabled={isClosing}
           id="add-modal--snack"
           value={snack}
-          onChange={(e) => setSnack(e.target.value)}
+          onChange={(value) => setSnack(value)}
           data-testid="name-input"
         />
         <p data-testid="name-input-message">{error.snack}</p>
@@ -120,7 +91,7 @@ export default function AddModal({ close, addReview, isClosing }: Props) {
         <p data-testid="content-input-message">{error.content}</p>
         <div className="buttons">
           <button
-            disabled={isClosing || imgDisplay === null}
+            disabled={isClosing}
             className="submit"
             onClick={handleSubmit}
             data-testid="submit-review"

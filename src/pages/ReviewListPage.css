@@ -1,0 +1,8 @@
+.review-list {
+  display: flex;
+  flex-direction: column;
+  width: 35rem;
+  margin: 5rem auto;
+  padding: 0;
+  gap: 1rem;
+}
