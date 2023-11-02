@@ -16,10 +16,10 @@ export default function Layout() {
           />
           <h1 data-testid="header-title">과자 리뷰</h1>
         </a>
-        <NavLink to="/" end>
+        <NavLink to="/" end data-testid="review">
           리뷰
         </NavLink>
-        <NavLink to="/snacks" end>
+        <NavLink to="/snacks" end data-testid="snack">
           과자
         </NavLink>
       </header>

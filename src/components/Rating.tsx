@@ -8,7 +8,7 @@ export default function Rating({
   className?: string;
 }) {
   return (
-    <span className={"rating" + (className ? " " + className : "")}>
+    <span className={"rating" + (className ? " " + className : "")} data-testid="rating">
       <span className="rating--star" />
       {children.toFixed(1)}
     </span>

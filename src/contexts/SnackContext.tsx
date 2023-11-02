@@ -55,8 +55,12 @@ const SnackContext = createContext<SnackContextData>({
   deleteReview: err,
 });
 
+const empty = true;
+
 export function SnackProvider(p: { children: ReactNode }) {
-  const [snacks, setSnacks] = useState<Snack[]>([
+  const [snacks, setSnacks] = useState<Snack[]>(
+ empty? []:
+  [
     {
       id: 1698852393397,
       name: "먹태깡",
@@ -93,8 +97,9 @@ export function SnackProvider(p: { children: ReactNode }) {
       image:
         "https://i.namu.wiki/i/9wnvUaEa1EkDqG-M0Pbwfdf19FJQQXV_-bnlU2SYaNcG05y2wbabiIrfrGES1M4xSgDjY39RwOvLNggDd3Huuw.webp",
     },
-  ]);
-  const [reviews, setReviews] = useState<Review[]>([
+  ]
+  );
+  const [reviews, setReviews] = useState<Review[]>(empty?[]:[
     {
       snackId: 1698852495006,
       id: 1,
@@ -109,7 +114,7 @@ export function SnackProvider(p: { children: ReactNode }) {
       getSnackById: (id) => snacks.find((s) => s.id === id) ?? null,
       getSnackByName: (name) => snacks.find((s) => s.name === name) ?? null,
       filterSnacksByName: (name) =>
-        snacks.filter((s) => s.name.startsWith(name)),
+        snacks.filter((s) => s.name.replace(/\s/g, '').includes(name.replace(/\s/g, ''))),
       addSnack: (snack) => setSnacks([...snacks, snack]),
 
       reviews: reviews,

@@ -35,7 +35,7 @@ export default function SnackNameInput({ onChange, ...inputProps }: Props) {
       />
       {isComplOpen &&
         (snacks.length > 0 ? (
-          <ul className="snack-name--completion">
+          <ul className="snack-name--completion" data-testid="snack-name-compl-list">
             {snacks.map((s) => (
               <li
                 key={s.id}

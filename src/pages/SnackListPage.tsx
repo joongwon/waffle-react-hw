@@ -9,9 +9,9 @@ export default function SnackListPage() {
   return (
     <ul className="snack-list">
       {snacks.map((s) => (
-        <li key={s.id}>
-          <img src={s.image} />
-          <Link to={`/snacks/${s.id}`}>
+        <li key={s.id} data-testid="snack-card">
+          <img src={s.image} data-testid="snack-image"/>
+          <Link to={`/snacks/${s.id}`} data-testid="snack-name">
             <h2>{s.name}</h2>
           </Link>
           <Rating>{5}</Rating>

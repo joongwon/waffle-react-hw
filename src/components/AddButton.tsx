@@ -26,7 +26,7 @@ export default function AddButton() {
         onClick={() => setMenu("closed")}
       />
       <div className={"add-button--menus"}>
-        <Link to="/snacks/new">
+        <Link to="/snacks/new" data-testid="new-snack">
           새 과자
           <span className="snack-icon" />
         </Link>
@@ -35,12 +35,14 @@ export default function AddButton() {
             setMenu("closed");
             setAddModal("open");
           }}
+          data-testid="new-review"
         >
           새 리뷰
           <span className="edit-icon" />
         </button>
       </div>
       <button
+        data-testid="open-menu"
         className="add-button"
         onClick={() => setMenu(menu === "open" ? "closed" : "open")}
       >

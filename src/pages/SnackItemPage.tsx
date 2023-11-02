@@ -37,12 +37,12 @@ function SnackItemImpl({ snack }: { snack: Snack }) {
   };
   return (
     <>
-      <div className="snack-card">
-        <img src={snack.image} />
-        <h2>{snack.name}</h2>
+      <div className="snack-card" data-testid="snack-card">
+        <img src={snack.image} data-testid="snack-image"/>
+        <h2 data-testid="snack-name">{snack.name}</h2>
         <Rating>{5}</Rating>
       </div>
-      <ul className="snack-review-list">
+      <ul className="snack-review-list" data-testid="review-list">
         {reviews.map((r) => (
           <ReviewItem.Container
             review={r}

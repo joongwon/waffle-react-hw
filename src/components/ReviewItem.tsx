@@ -88,7 +88,7 @@ function Container(props: Props) {
 function SnackName() {
   const { snack } = useContext(ReviewItemContext);
   return (
-    <Link to={`/snacks/${snack.id}`}>
+    <Link to={`/snacks/${snack.id}`} data-testid="snack-name">
       <h2>{snack.name}</h2>
     </Link>
   );

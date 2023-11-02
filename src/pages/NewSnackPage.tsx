@@ -16,7 +16,7 @@ export default function NewSnackPage() {
     img?: string;
     name?: string;
   }>({});
-  const { addSnack } = useSnackContext();
+  const { addSnack, filterSnacksByName } = useSnackContext();
   const navigate = useNavigate();
   const handleSubmit = () => {
     const imgError =
@@ -24,6 +24,8 @@ export default function NewSnackPage() {
     const nameError =
       name.length < 1 || name.length > 20 || beginOrEndWithBlank(name)
         ? "첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요"
+        : filterSnacksByName(name).length > 0
+        ? "이미 존재하는 과자 이름입니다"
         : undefined;
 
     if (imgError || nameError) {
@@ -49,6 +51,7 @@ export default function NewSnackPage() {
       <input
         id="new-snack--img"
         value={imgInput}
+        data-testid="image-input"
         onChange={(e) => {
           if (tid !== null) clearTimeout(tid);
           setImgInput(e.target.value);
@@ -64,14 +67,15 @@ export default function NewSnackPage() {
       <input
         id="new-snack--name"
         value={name}
+        data-testid="name-input"
         onChange={(e) => setName(e.target.value)}
       />
-      <p>{error.name}</p>
+      <p data-testid="snack-name-error">{error.name}</p>
       <div className="buttons">
-        <button className="submit" onClick={handleSubmit}>
+        <button className="submit" onClick={handleSubmit} data-testid="add-button" disabled={imgDisplay === null}>
           추가
         </button>
-        <Link className="cancel" to="/">
+        <Link className="cancel" to="/" data-testid="cancel-button">
           취소
         </Link>
       </div>
