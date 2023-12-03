@@ -1,0 +1,34 @@
+.layout {
+  font-family: sans-serif;
+}
+
+.layout > header {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.layout > header > a {
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  gap: 1rem;
+}
+
+.layout > header > a.active {
+  font-weight: bold;
+}
+
+.layout > header h1 {
+  margin: 0;
+}
+
+.layout > header {
+  background-color: #ffeed0;
+  padding: 0.5rem;
+  box-shadow: 0 0.2rem 0.2rem gray;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 1;
+}

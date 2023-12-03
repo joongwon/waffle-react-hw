@@ -11,13 +11,12 @@
   padding: 0.5rem;
 }
 
-.review-item > img {
-  grid-area: img;
-  width: 10rem;
-  height: 10rem;
+.review-item a {
+  text-decoration: none;
+  color: black;
 }
 
-.review-item > h2 {
+.review-item h2 {
   grid-area: snack;
   font-size: 1.2rem;
   margin: 0;
@@ -90,9 +89,14 @@
 }
 
 .review-item > img {
+  grid-area: img;
   width: 10rem;
   height: 10rem;
   align-self: center;
   border: 1px solid pink;
   border-radius: 1rem;
+}
+
+.review-item--rating {
+  grid-area: rating;
 }

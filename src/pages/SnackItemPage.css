@@ -1,0 +1,66 @@
+.snack-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  gap: 0.5rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  padding: 0.5rem;
+  width: 10rem;
+  align-items: center;
+  margin: 5rem auto 0;
+}
+
+.snack-card h2 {
+  margin: 0;
+}
+
+.snack-card > img {
+  width: 10rem;
+  height: 10rem;
+  border: 1px solid pink;
+  border-radius: 1rem;
+}
+
+.snack-card .star {
+  background-image: url(/star.svg);
+  background-size: contain;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: inline-block;
+  transform: translateY(3px);
+}
+
+.snack-card > .rating {
+  grid-area: rating;
+  color: #ffbb00;
+  font-weight: bold;
+}
+
+.snack-review-list {
+  list-style: none;
+  margin: 1rem auto;
+  padding: 0;
+  width: 35rem;
+}
+
+.snack-review-list > li {
+  border: 1px solid gray;
+  gap: 0.5rem;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  padding: 0.5rem;
+}
+
+.snack-review-list > li > .rating {
+  grid-area: rating;
+  color: #ffbb00;
+  font-weight: bold;
+}
+
+.snack-review-list .star {
+  background-image: url(/star.svg);
+  background-size: contain;
+  width: 1.2rem;
+  height: 1.2rem;
+  display: inline-block;
+  transform: translateY(3px);
+}

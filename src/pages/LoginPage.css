@@ -1,0 +1,35 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 35rem;
+  margin: 5rem auto;
+  padding: 0;
+  gap: 1rem;
+}
+
+.login > label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.login > label > input {
+  width: 80%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.login > button {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.login > button:hover {
+  background-color: #ddd;
+}

@@ -1,0 +1,121 @@
+.add-button--container {
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  right: 3rem;
+  bottom: 3rem;
+}
+
+.add-button {
+  background-color: #00ee00;
+  color: white;
+  box-shadow: 0.2rem 0.2rem 0.2rem gray;
+  border: none;
+  border-radius: 100%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.add-button span {
+  transition: 0.3s;
+  transform: rotate(0);
+  display: inline-block;
+}
+
+.add-button--open .add-button {
+  background-color: #ff6666;
+}
+
+.add-button--open .add-button span {
+  transform: rotate(45deg);
+}
+
+.add-button--menus {
+  visibility: hidden;
+  list-style: none;
+  padding: 0;
+}
+
+.add-button--closed .add-button--menus {
+  visibility: hidden;
+  animation: add-button--disappear 0.5s;
+}
+
+.add-button--open .add-button--menus {
+  visibility: visible;
+  animation: add-button--appear 0.5s;
+}
+
+@keyframes add-button--appear {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
+@keyframes add-button--disappear {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+}
+
+.add-button--background {
+  visibility: hidden;
+}
+
+.add-button--open .add-button--background {
+  visibility: visible;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.add-button--menus a {
+  text-decoration: none;
+  color: initial;
+}
+
+.add-button--menus button {
+  font-size: inherit;
+}
+
+.add-button--menus a,
+.add-button--menus button {
+  display: flex;
+  background: white;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  border: none;
+  align-items: center;
+}
+
+.snack-icon,
+.edit-icon {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 0.2rem;
+  background-size: cover;
+}
+
+.snack-icon {
+  background-image: url(/snack.svg);
+}
+
+.edit-icon {
+  background-image: url(/edit.svg);
+}
