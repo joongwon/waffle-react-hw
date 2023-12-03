@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AddModal from "./AddModal";
-import { useSnackContext } from "../contexts/SnackContext";
 import "./AddButton.css";
 
 type ModalState = "open" | "closed" | "closing";
 type MenuState = "initial" | "open" | "closed";
 
-export default function AddButton() {
+export default function AddButton({ refetch }: { refetch: () => void }) {
   const [menu, setMenu] = useState<MenuState>("initial");
   const [addModal, setAddModal] = useState<ModalState>("closed");
   return (
@@ -52,6 +51,7 @@ export default function AddButton() {
         <AddModal
           close={() => {
             setAddModal("closing");
+            refetch();
             setTimeout(() => setAddModal("closed"), 500);
           }}
           isClosing={addModal === "closing"}

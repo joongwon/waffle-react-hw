@@ -1,49 +1,47 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { deleteReview, useReviewList, useSnack } from "../api";
 import DeleteModal from "../components/DeleteModal";
 import Rating from "../components/Rating";
 import ReviewItem from "../components/ReviewItem";
-import { Snack, useSnackContext, Review } from "../contexts/SnackContext";
+import { useAuth } from "../contexts/AuthContext";
+import { Review } from "../types";
 import "./SnackItemPage.css";
 
 export default function SnackItemPage() {
-  const { getSnackById } = useSnackContext();
   const { id } = useParams();
   const nid = Number(id);
   if (Number.isNaN(nid)) return <div>잘못된 페이지입니다</div>;
-  const snack = getSnackById(nid);
-  if (snack === null) return <div>해당 과자를 찾을 수 없습니다</div>;
-  return <SnackItemImpl snack={snack} />;
+  return <SnackItemImpl id={nid} />;
 }
 
 type DeleteModalState =
-  | { state: "open"; review: Review }
-  | { state: "closed" }
-  | { state: "closing"; review: Review };
+  | { state: "open" | "closing"; review: Review }
+  | { state: "closed" };
 
-function SnackItemImpl({ snack }: { snack: Snack }) {
-  const { getReviewsBySnackId, getReviewById, deleteReview, getSnackById } =
-    useSnackContext();
-  const reviews = getReviewsBySnackId(snack.id);
+function SnackItemImpl({ id }: { id: number }) {
+  const snack = useSnack(id);
+  const { reviews, refetch } = useReviewList(id);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deleteModal, setDeleteModal] = useState<DeleteModalState>({
     state: "closed",
   });
-  const openDeleteModal = (id: number) => {
+  const openDeleteModal = (review: Review) => {
     setDeleteModal({
       state: "open",
-      review: getReviewById(id)!,
+      review,
     });
   };
+  const { token } = useAuth();
   return (
     <>
       <div className="snack-card" data-testid="snack-card">
-        <img src={snack.image} data-testid="snack-image"/>
-        <h2 data-testid="snack-name">{snack.name}</h2>
-        <Rating>{5}</Rating>
+        <img src={snack?.image ?? ""} data-testid="snack-image" />
+        <h2 data-testid="snack-name">{snack?.name}</h2>
+        <Rating>{snack?.rating ?? null}</Rating>
       </div>
       <ul className="snack-review-list" data-testid="review-list">
-        {reviews.map((r) => (
+        {reviews?.map((r) => (
           <ReviewItem.Container
             review={r}
             key={r.id}
@@ -51,6 +49,7 @@ function SnackItemImpl({ snack }: { snack: Snack }) {
             startEditing={setEditingId}
             endEditing={() => setEditingId(null)}
             openDeleteModal={openDeleteModal}
+            refetch={refetch}
           >
             <ReviewItem.Rating />
           </ReviewItem.Container>
@@ -59,12 +58,17 @@ function SnackItemImpl({ snack }: { snack: Snack }) {
       {deleteModal.state !== "closed" && (
         <DeleteModal
           isClosing={deleteModal.state === "closing"}
-          deleteReview={() => deleteReview(deleteModal.review.id)}
+          deleteReview={() =>
+            deleteReview(deleteModal.review.id, token).then((res) => {
+              if (res.ok) refetch();
+              else alert("리뷰를 삭제할 수 없습니다");
+            })
+          }
           close={() => {
             setDeleteModal({ state: "closing", review: deleteModal.review });
             setTimeout(() => setDeleteModal({ state: "closed" }), 500);
           }}
-          snack={getSnackById(deleteModal.review.snackId)!.name}
+          snack={deleteModal.review.snack.name}
         />
       )}
     </>

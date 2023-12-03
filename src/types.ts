@@ -10,4 +10,7 @@ export type Review = {
   snack: Snack;
   rating: number | null;
   content: string;
+  author: {
+    id: number;
+  };
 };

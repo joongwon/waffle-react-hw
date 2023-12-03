@@ -2,6 +2,12 @@
   font-family: sans-serif;
 }
 
+.layout > header {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
 .layout > header > a {
   text-decoration: none;
   color: black;

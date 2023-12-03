@@ -1,22 +1,26 @@
 import React, { InputHTMLAttributes, useState, useEffect, useRef } from "react";
 import { ChangeEventHandler } from "react";
-import { useSnackContext } from "../contexts/SnackContext";
+import { Snack } from "../types";
 import "./SnackNameInput.css";
 
 type Props = {
   value: string;
   onChange: (v: string) => void;
+  filteredSnacks: Snack[];
 } & Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "onFocus" | "onChange" | "onBlur"
 >;
 
-export default function SnackNameInput({ onChange, ...inputProps }: Props) {
+export default function SnackNameInput({
+  onChange,
+  filteredSnacks,
+  ...inputProps
+}: Props) {
   const { value } = inputProps;
   const [isComplOpen, setIsComplOpen] = useState(false);
-  const { filterSnacksByName } = useSnackContext();
-  const snacks = filterSnacksByName(value);
   const ti = useRef<number | null>(null);
+
   return (
     <div className="snack-name">
       <input
@@ -34,9 +38,12 @@ export default function SnackNameInput({ onChange, ...inputProps }: Props) {
         }}
       />
       {isComplOpen &&
-        (snacks.length > 0 ? (
-          <ul className="snack-name--completion" data-testid="snack-name-compl-list">
-            {snacks.map((s) => (
+        ((filteredSnacks.length ?? 0) > 0 ? (
+          <ul
+            className="snack-name--completion"
+            data-testid="snack-name-compl-list"
+          >
+            {filteredSnacks.map((s) => (
               <li
                 key={s.id}
                 onClick={() => {

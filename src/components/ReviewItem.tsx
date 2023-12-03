@@ -1,22 +1,23 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
 import "./ReviewItem.css";
-import { Review, Snack, useSnackContext } from "../contexts/SnackContext";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import { Review } from "../types";
+import { useAuth } from "../contexts/AuthContext";
+import { baseURL } from "../constants";
 
 type Props = {
   review: Review;
   editingId: number | null;
-  openDeleteModal: (id: number) => void;
+  openDeleteModal: (review: Review) => void;
   startEditing: (id: number) => void;
   endEditing: () => void;
   children: ReactNode;
+  refetch: () => Promise<void>;
 };
 
 // let program die if it tries to useContext outside of context
-const ReviewItemContext = createContext<{ snack: Snack; props: Props }>(
-  null as any,
-);
+const ReviewItemContext = createContext<{ props: Props }>(null as any);
 
 function Container(props: Props) {
   const {
@@ -26,17 +27,18 @@ function Container(props: Props) {
     endEditing,
     editingId,
     children,
+    refetch,
   } = props;
   const [content, setContent] = useState("");
-  const { getSnackById, updateReview } = useSnackContext();
-  const snack = getSnackById(props.review.snackId)!;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { userInfo, token } = useAuth();
 
   return (
-    <ReviewItemContext.Provider value={{ props, snack }}>
+    <ReviewItemContext.Provider value={{ props }}>
       <li
         className={
           "review-item " +
-          (props.editingId === null
+          (props.editingId === null && userInfo?.id === review.author.id
             ? "editable"
             : props.editingId === props.review.id
             ? "editing"
@@ -56,20 +58,32 @@ function Container(props: Props) {
         <button
           data-testid="delete-review"
           className="delete"
-          onClick={() => openDeleteModal(review.id)}
+          onClick={() => openDeleteModal(review)}
         />
         <button
           data-testid="edit-review-save"
           className="save"
-          onClick={() => {
-            updateReview(review.id, content);
-            endEditing();
+          onClick={async () => {
+            setIsSubmitting(true);
+            try {
+              const { ok } = await updateReview(review.id, content, token);
+              if (ok) {
+                await refetch();
+                endEditing();
+              } else {
+                alert("리뷰를 수정할 수 없습니다.");
+              }
+            } finally {
+              setIsSubmitting(false);
+            }
           }}
+          disabled={isSubmitting}
         />
         <button
           data-testid="edit-review-cancel"
           className="cancel"
           onClick={() => endEditing()}
+          disabled={isSubmitting}
         />
         {editingId === review.id ? (
           <textarea
@@ -86,7 +100,7 @@ function Container(props: Props) {
 }
 
 function SnackName() {
-  const { snack } = useContext(ReviewItemContext);
+  const snack = useContext(ReviewItemContext).props.review.snack;
   return (
     <Link to={`/snacks/${snack.id}`} data-testid="snack-name">
       <h2>{snack.name}</h2>
@@ -95,7 +109,7 @@ function SnackName() {
 }
 
 function SnackImage() {
-  const { snack } = useContext(ReviewItemContext);
+  const snack = useContext(ReviewItemContext).props.review.snack;
   return <img src={snack.image} data-testid="snack-image" />;
 }
 
@@ -118,3 +132,14 @@ const ReviewItem = {
   Rating: ReviewRating,
 };
 export default ReviewItem;
+
+function updateReview(id: number, content: string, token: string) {
+  return fetch(baseURL + `/reviews/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ content }),
+  });
+}
