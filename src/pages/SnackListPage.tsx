@@ -1,22 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-import { useSnackContext } from "../contexts/SnackContext";
+import { baseURL } from "../constants";
+import { Snack } from "../types";
 import "./SnackListPage.css";
 
 export default function SnackListPage() {
-  const { snacks } = useSnackContext();
+  const snacks = useSnacks();
   return (
     <ul className="snack-list">
-      {snacks.map((s) => (
+      {snacks?.map((s) => (
         <li key={s.id} data-testid="snack-card">
           <img src={s.image} data-testid="snack-image"/>
           <Link to={`/snacks/${s.id}`} data-testid="snack-name">
             <h2>{s.name}</h2>
           </Link>
-          <Rating>{5}</Rating>
+          <Rating>{s.rating}</Rating>
         </li>
       ))}
     </ul>
   );
+}
+
+function useSnacks() {
+  const [snacks, setSnacks] = useState<Snack[] | null>(null);
+  useEffect(() => {
+    fetch(baseURL + "/snacks")
+      .then((res) => res.json())
+      .then((data) => setSnacks(data))
+      .catch((err) => console.error(err));
+  }, []);
+  return snacks;
 }

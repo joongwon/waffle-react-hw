@@ -9,6 +9,10 @@
   gap: 1rem;
 }
 
+.layout > header > a.active {
+  font-weight: bold;
+}
+
 .layout > header h1 {
   margin: 0;
 }

@@ -8,6 +8,7 @@ import SnackListPage from "./pages/SnackListPage";
 import SnackItemPage from "./pages/SnackItemPage";
 import { SnackProvider } from "./contexts/SnackContext";
 import NewSnackPage from "./pages/NewSnackPage";
+import LoginPage from "./pages/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/snacks/new",
         element: <NewSnackPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
     ],
   },

@@ -5,18 +5,6 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-export type Snack = {
-  id: number;
-  name: string;
-  image: string;
-};
-
-export type Review = {
-  id: number;
-  snackId: number;
-  rating: number;
-  content: string;
-};
 
 export type SnackContextData = {
   snacks: Snack[];
@@ -58,55 +46,8 @@ const SnackContext = createContext<SnackContextData>({
 const empty = true;
 
 export function SnackProvider(p: { children: ReactNode }) {
-  const [snacks, setSnacks] = useState<Snack[]>(
- empty? []:
-  [
-    {
-      id: 1698852393397,
-      name: "먹태깡",
-      image:
-        "https://dimg.donga.com/wps/NEWS/IMAGE/2023/07/05/120093215.1.edit.jpg",
-    },
-    {
-      id: 1698852436643,
-      name: "오!감자",
-      image:
-        "https://www.thinkfood.co.kr/news/photo/article/10773632984ef2ae2fb79f817.jpg",
-    },
-    {
-      id: 1698852457527,
-      name: "자갈치",
-      image:
-        "https://i.namu.wiki/i/jx2uYcM_jZLrYWc1HiBAyDopYdBUcrD8fKPo2iKWdO9zFMIL-wyooAb3zwIMOtJ9yUT-3_W-VP5ytA5ZgbF3Dg.webp",
-    },
-    {
-      id: 1698852495006,
-      name: "감자깡",
-      image:
-        "https://m.drice.co.kr/web/product/big/202305/4637a4db7e6187e22fb6710dba1e2862.jpg",
-    },
-    {
-      id: 1698855079348,
-      name: "꼬깔콘 고소한맛",
-      image:
-        "https://contents.lotteon.com/itemimage/20231019072739/LM/88/01/06/28/61/90/3_/00/1/LM8801062861903_001_1.jpg/dims/optimize/dims/resizemc/400x400",
-    },
-    {
-      id: 1698855117752,
-      name: "꼬북칩 초코츄러스맛",
-      image:
-        "https://i.namu.wiki/i/9wnvUaEa1EkDqG-M0Pbwfdf19FJQQXV_-bnlU2SYaNcG05y2wbabiIrfrGES1M4xSgDjY39RwOvLNggDd3Huuw.webp",
-    },
-  ]
-  );
-  const [reviews, setReviews] = useState<Review[]>(empty?[]:[
-    {
-      snackId: 1698852495006,
-      id: 1,
-      content: "아주맛있는감자침",
-      rating: 5,
-    },
-  ]);
+  const [snacks, setSnacks] = useState<Snack[] | null>(null);
+  const [reviews, setReviews] = useState<Review[] | null>(null);
 
   const data = useMemo<SnackContextData>(
     () => ({
